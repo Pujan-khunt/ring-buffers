@@ -67,8 +67,7 @@ func NewRingBuffer(len int) (*OptimizedRB, error) {
 	}
 
 	// Convert raw addr into byte slice
-	var data []byte
-	data = unsafe.Slice((*byte)(unsafe.Pointer(addr)), 2*len)
+	data := unsafe.Slice((*byte)(unsafe.Pointer(addr)), 2*len)
 
 	return &OptimizedRB{
 		data: data,
