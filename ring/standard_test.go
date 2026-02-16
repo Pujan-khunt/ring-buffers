@@ -37,14 +37,27 @@ func TestBuffer(t *testing.T) {
 			name: "write full and read partial",
 			size: uint(5),
 			steps: []step{
-				{action: "WRITE", input: []byte{1, 2, 3, 4, 5}, expectCount: 5, expectData: nil},      // write full
+				{action: "WRITE", input: []byte{1, 2, 3, 4, 5}, expectCount: 5},                       // write full
 				{action: "READ", input: make([]byte, 3), expectCount: 3, expectData: []byte{1, 2, 3}}, // read partial
 			},
 		},
 		{
-			name:  "warp around logic",
-			size:  5,
-			steps: []step{},
+			name: "wrap around logic",
+			size: 5,
+			steps: []step{
+				{action: "WRITE", input: []byte{1, 2, 3, 4}, expectCount: 4},
+				{action: "READ", input: make([]byte, 2), expectCount: 2, expectData: []byte{1, 2}},
+				{action: "WRITE", input: []byte{5, 6, 7}, expectCount: 3},
+				{action: "READ", input: make([]byte, 5), expectCount: 5, expectData: []byte{3, 4, 5, 6, 7}},
+			},
+		},
+		{
+			name: "buffer full rejection",
+			size: 3,
+			steps: []step{
+				{action: "WRITE", input: []byte{1, 2, 3}, expectCount: 3},
+				{action: "WRITE", input: []byte{4}, expectCount: 0},
+			},
 		},
 	}
 
