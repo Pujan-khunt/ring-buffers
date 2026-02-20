@@ -1,3 +1,5 @@
 module github.com/Pujan-khunt/ring-buffers
 
 go 1.25.6
+
+require golang.org/x/sys v0.41.0
